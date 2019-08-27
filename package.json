@@ -1,0 +1,52 @@
+{
+	"name": "@geek/config",
+	"version": "0.0.1",
+	"description": "Geek Configuration Manager for Node.js - The complete solution for managing config settings for your Node.js application",
+	"main": "index.js",
+	"scripts": {
+		"test": "node ./bin/cli.js ./tests/test1-json test1 dev '{ \"property1\": \"overrides\", \"property2\": \"overrides\"}'",
+		"list-files": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz"
+	},
+	"author": {
+		"name": "Brenton House",
+		"email": "brenton.house@gmail.com",
+		"url": "https://brenton.house"
+	},
+	"maintainers": [
+		{
+			"name": "Brenton House",
+			"email": "brenton.house@gmail.com",
+			"url": "https://brenton.house"
+		}
+	],
+	"license": "MIT",
+	"bin": {
+		"config": "./bin/cli.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "github:brentonhouse/geek-config"
+	},
+	"bugs": {
+		"url": "https://github.com/brentonhouse/geek-config/issues"
+	},
+	"homepage": "https://github.com/brentonhouse/geek-config#readme",
+	"dependencies": {
+		"fs-extra": "^8.1.0",
+		"lodash": "^4.17.15"
+	},
+	"devDependencies": {
+		"@geek/eslint-config": "0.0.8",
+		"eslint": "^6.1.0"
+	},
+	"engines": {
+		"node": ">=8.0"
+	},
+	"keywords": [
+		"config",
+		"brenton-house"
+	],
+	"titanium": {
+		"ignore": true
+	}
+}

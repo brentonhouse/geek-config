@@ -1,0 +1,8 @@
+{
+	"property1": "user.dev",
+	"property2": "user.dev",
+	"property3": "user.dev",
+	"object1": {
+		"property1": "user.dev"
+	}	
+}
