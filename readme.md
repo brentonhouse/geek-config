@@ -22,15 +22,15 @@ $ npm install @geek/config
 
 | priority 	| source 	| example  	|   location	|
 |:-:	|:-:	|:-:	|:-:	|
-| 1.  	| **process.env**  	| `MYAPP_MYPROPERTY="Some value" ` 		| environment variable  	|
-| 2.  	| **overrides**  	|    	| parameter: `overrides`  	|
+| 1.  	| **process.env**  	| `MYAPP_PROPERTY1="environment-value" ` 		| environment variable  	|
+| 2.  	| **overrides**  	| `{ "property1": "override-value" }`	| parameter: `overrides`  	|
 | 3.  	| **user environment config file**  	| `myapp.dev.user.json`    	| *project directory*  	|
 | 4.  	| **user config file**  	| `myapp.user.json`  	|   *project directory*  	|
 | 5.  	| **project environment config file**  	| `myapp.dev.project.json`  	| *project directory*  	|
 | 6.  	| **project config file**  	| `myapp.project.json`  	| *project directory*  	|
 | 7.  	| **global environment config fil**e  	| `myapp.dev.global.json`  		| *home config directory*  	|
 | 8.  	| **global config file**  	| `myapp.global.json`  		| *home config directory*  	|
-| 9.  	| **default values**  	|  	  	| parameter: `defaults`  	|
+| 9.  	| **default values**  	|  `{ "property1": "default-value" }`	  	| parameter: `defaults`  	|
 
 ## Examples
 
