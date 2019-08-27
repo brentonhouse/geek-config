@@ -21,7 +21,7 @@ $ npm install @geek/config
 
 
 | priority 	| source 	| example  	|   location	|
-|:-:	|:-:	|:-:	|:-:	|:-:	|
+|:-:	|:-:	|:-:	|:-:	|
 | 1.  	| **process.env**  	| `MYAPP_MYPROPERTY="Some value" ` 		| environment variable  	|
 | 2.  	| **overrides**  	|    	| parameter: `overrides`  	|
 | 3.  	| **user environment config file**  	| `myapp.dev.user.json`    	| *project directory*  	|
