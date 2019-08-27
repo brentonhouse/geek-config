@@ -9,7 +9,7 @@ if (args.length < 2) {
 
 // console.error(`args: ${JSON.stringify(args, null, 2)}`);
 
-const Config = require('../Config');
+const Config = require('..');
 const config = new Config({ cwd: args[0], name: args[1], env: args[2], overrides: args[3] });
 console.log(config.store);
 
