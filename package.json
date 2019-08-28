@@ -1,10 +1,10 @@
 {
 	"name": "@geek/config",
-	"version": "0.0.3",
+	"version": "0.1.0",
 	"description": "Geek Configuration Manager for Node.js - The complete solution for managing config settings for your Node.js application",
 	"main": "index.js",
 	"scripts": {
-		"test": "node ./bin/cli.js ./tests/test1-json test1 dev '{ \"property1\": \"overrides\", \"property2\": \"overrides\"}'",
+		"test": "node ./bin/cli.js ./tests/test1-json test1 'ios, dev' '{ \"property1\": \"overrides\", \"property2\": \"overrides\"}' '{ \"property8\": \"defaults\", \"property9\": \"defaults\"}'",
 		"list-files": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz"
 	},
 	"author": {

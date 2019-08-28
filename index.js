@@ -3,7 +3,6 @@
 const fs = require('fs-extra');
 const path = require('path');
 const _ = require('lodash');
-const plainObject = () => Object.create(null);
 
 const cacheSubDirName = '.';
 
@@ -12,6 +11,7 @@ class Config {
 		options = {
 			fileExtension: 'json',
 			deepMerge:     false,
+			profiles:      [],
 			...options,
 		};
 
@@ -26,6 +26,15 @@ class Config {
 		}
 
 		this.name = options.name;
+		const globalConfigDirectory = getConfigDirectory();
+		const configFiles = [];
+
+		if (_.isString(options.profile)) {
+			options.profiles = options.profile.split(',').map(item => item.trim());
+		} else if (_.isString(options.profiles)) {
+			options.profiles = options.profiles.split(',').map(item => item.trim());
+		}
+
 
 		if (options.overrides) {
 			if (_.isString(options.overrides)) {
@@ -35,37 +44,75 @@ class Config {
 				} catch (err) {
 					throw new Error(`Cannot parse options.overrides: ${err.message}`);
 				}
-			} else if (typeof options.overrides !== 'object') {
+			} else if (!_.isObject(options.overrides)) {
 				throw new Error(`options.overrides is not an object: ${typeof options.overrides}`);
 			}
+
+			configFiles.push(options.overrides);
 		}
 
-		const projectConfig = this.getConfigFile({ cwd: options.cwd, filename: `${options.name}.project`, ext: options.fileExtension });
-		const userConfig = this.getConfigFile({ cwd: options.cwd, filename: `${options.name}.user`, ext: options.fileExtension });
-		const userEnvConfig = options.env ? this.getConfigFile({ cwd: options.cwd, filename: `${options.name}.${options.env}.user`, ext: options.fileExtension, env: options.env }) : plainObject;
-		const projectEnvConfig = options.env ? this.getConfigFile({ cwd: options.cwd, filename: `${options.name}.${options.env}.project`, ext: options.fileExtension, env: options.env }) : plainObject;
+		const addConfigFile = configFile => {
+			if (_.isObject(configFile)) {
+				configFiles.push(configFile);
+			}
+		};
 
-		const globalConfigDirectory = getConfigDirectory();
+		console.error(`options: ${JSON.stringify(options, null, 2)}`);
 
-		const globalConfig = this.getConfigFile({ cwd: globalConfigDirectory, filename: `${options.name}.global`, ext: options.fileExtension });
-		const globalEnvConfig = options.env ? this.getConfigFile({ cwd: globalConfigDirectory, filename: `${options.name}.${options.env}.global`, ext: options.fileExtension }) : plainObject;
+		// project user configs
+		_.forEach(options.profiles, profile => {
+			addConfigFile(this.getConfigFile({ cwd: options.cwd, filename: `${options.name}.${profile}.user`, ext: options.fileExtension }));
+		});
+
+		// project profile configs
+		_.forEach(options.profiles, profile => {
+			addConfigFile(this.getConfigFile({ cwd: options.cwd, filename: `${options.name}.${profile}.project`, ext: options.fileExtension }));
+		});
 
 
-		// console.error(`projectConfig: ${JSON.stringify(projectConfig, null, 2)}`);
-		// console.error(`userConfig: ${JSON.stringify(userConfig, null, 2)}`);
-		// console.error(`userEnvConfig: ${JSON.stringify(userEnvConfig, null, 2)}`);
-		// console.error(`projectEnvConfig: ${JSON.stringify(projectEnvConfig, null, 2)}`);
-		// console.error(`globalConfig: ${JSON.stringify(globalConfig, null, 2)}`);
-		// console.error(`globalEnvConfig: ${JSON.stringify(globalEnvConfig, null, 2)}`);
+		// user config
+		addConfigFile(this.getConfigFile({ cwd: options.cwd, filename: `${options.name}.user`, ext: options.fileExtension }));
+
+
+		// project config
+		addConfigFile(this.getConfigFile({ cwd: options.cwd, filename: `${options.name}.project`, ext: options.fileExtension }));
+
+
+		// global profile configs
+		_.forEach(options.profiles, profile => {
+			addConfigFile(this.getConfigFile({ cwd: globalConfigDirectory, filename: `${options.name}.${profile}.global`, ext: options.fileExtension }));
+		});
+
+		// global config
+		addConfigFile(this.getConfigFile({ cwd: globalConfigDirectory, filename: `${options.name}.global`, ext: options.fileExtension }));
+
+
+		if (options.defaults) {
+			if (_.isString(options.defaults)) {
+				try {
+					//TODO:  Add support for yaml and JSON5
+					options.defaults = JSON.parse(options.defaults);
+				} catch (err) {
+					throw new Error(`Cannot parse options.defaults: ${err.message}`);
+				}
+			} else if (!_.isObject(options.defaults)) {
+				throw new Error(`options.defaults is not an object: ${typeof options.defaults}`);
+			}
+
+			configFiles.push(options.defaults);
+		}
+
+
+		console.error(`configFiles: ${JSON.stringify(configFiles, null, 2)}`);
 
 		const finalConfig = {};
 		if (options.deepMerge) {
-			_.merge(finalConfig, globalConfig, globalEnvConfig, projectConfig, projectEnvConfig, userConfig, userEnvConfig, options.overrides);
+			_.merge(finalConfig, ...configFiles.reverse());
 		} else {
-			_.defaults(finalConfig, options.overrides, userEnvConfig, userConfig, projectEnvConfig, projectConfig, globalEnvConfig, globalConfig);
+			_.defaults(finalConfig, ...configFiles);
 		}
 
-		// console.error(`finalConfig: ${JSON.stringify(finalConfig, null, 2)}`);
+		console.error(`finalConfig: ${JSON.stringify(finalConfig, null, 2)}`);
 
 		this.store = finalConfig;
 
@@ -82,10 +129,7 @@ class Config {
 	}
 
 	getConfigFile(options = {}) {
-		options = {
-			env: '',
-			...options,
-		};
+		options = { ...options  };
 
 		if (!options.cwd) {
 			throw new Error('options.cwd is required.');
@@ -96,16 +140,11 @@ class Config {
 		if (!options.ext) {
 			throw new Error('options.ext is required.');
 		}
-
-		// let filename = `${options.name}.${options.type}`;
-		// options.env && (filename += `.${options.env}`);
-		// filename += `.${options.ext}`;
-
 		const filepath = path.join(options.cwd, `${options.filename}.${options.ext}`);
-		// console.error(`filepath: ${JSON.stringify(filepath, null, 2)}`);
+		console.error(`filepath: ${JSON.stringify(filepath, null, 2)}`);
 		if (! fs.pathExistsSync(filepath)) {
-			// console.error('you are here → file not found');
-			return plainObject;
+			console.error('you are here → file not found');
+			return;
 		}
 
 		try {
@@ -120,7 +159,7 @@ class Config {
 			}
 		} catch (error) {
 			if (error.code === 'ENOENT') {
-				return plainObject;
+				return;
 			}
 			console.error(error);
 			throw error;
