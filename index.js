@@ -57,7 +57,7 @@ class Config {
 			}
 		};
 
-		console.error(`options: ${JSON.stringify(options, null, 2)}`);
+		// console.error(`options: ${JSON.stringify(options, null, 2)}`);
 
 		// project user configs
 		_.forEach(options.profiles, profile => {
@@ -103,7 +103,7 @@ class Config {
 		}
 
 
-		console.error(`configFiles: ${JSON.stringify(configFiles, null, 2)}`);
+		// console.error(`configFiles: ${JSON.stringify(configFiles, null, 2)}`);
 
 		const finalConfig = {};
 		if (options.deepMerge) {
@@ -112,7 +112,7 @@ class Config {
 			_.defaults(finalConfig, ...configFiles);
 		}
 
-		console.error(`finalConfig: ${JSON.stringify(finalConfig, null, 2)}`);
+		// console.error(`finalConfig: ${JSON.stringify(finalConfig, null, 2)}`);
 
 		this.store = finalConfig;
 
@@ -141,9 +141,9 @@ class Config {
 			throw new Error('options.ext is required.');
 		}
 		const filepath = path.join(options.cwd, `${options.filename}.${options.ext}`);
-		console.error(`filepath: ${JSON.stringify(filepath, null, 2)}`);
+		// console.error(`filepath: ${JSON.stringify(filepath, null, 2)}`);
 		if (! fs.pathExistsSync(filepath)) {
-			console.error('you are here → file not found');
+			// console.error('you are here → file not found');
 			return;
 		}
 

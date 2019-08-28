@@ -15,5 +15,4 @@ console.log(config.store);
 
 
 // const prop1 = config.get('property1');
-
 // console.error(`prop1: ${JSON.stringify(prop1, null, 2)}`);
