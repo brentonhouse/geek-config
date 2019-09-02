@@ -239,6 +239,11 @@ class Config {
 
 	get(key, defaultValue) {
 
+
+		if (!key) {
+			return defaultValue || key;
+		}
+
 		const env_var_name = `${this.name.toUpperCase()}_${key.toUpperCase().replace('.', '_')}`;
 		// console.error(`env_var_name: ${JSON.stringify(env_var_name, null, 2)}`);
 		const env_var = process.env[env_var_name];
