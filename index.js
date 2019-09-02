@@ -20,18 +20,19 @@ class Config {
 			projectFilenameSuffix: '.project',
 			globalFilenameSuffix:  '.global',
 			systemFilenameSuffix:  '.system',
+			name:                  'geek',
 			...options,
 		};
 
 
 		// console.error(`options: ${JSON.stringify(options, null, 2)}`);
 
-		if (!options.cwd) {
-			throw new Error('options.cwd is required.');
-		}
-		if (!options.name) {
-			throw new Error('options.name is required.');
-		}
+		// if (!options.cwd) {
+		// 	throw new Error('options.cwd is required.');
+		// }
+		// if (!options.name) {
+		// 	throw new Error('options.name is required.');
+		// }
 
 		this.name = options.name;
 		this.fileExtensions = options.fileExtensions || options.fileExtension || supportedFileExtensions;

@@ -1,6 +1,6 @@
 {
 	"name": "@geek/config",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "Geek Configuration Manager for Node.js - The complete solution for managing config settings for your Node.js application",
 	"main": "index.js",
 	"scripts": {
