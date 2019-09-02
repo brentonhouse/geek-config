@@ -11,6 +11,7 @@ if (args.length < 2) {
 
 const Config = require('..');
 const config = new Config({ cwd: args[0], name: args[1], profiles: args[2], overrides: args[3], defaults: args[4] });
+// const config = new Config({ cwd: args[0], name: args[1], profiles: args[2], overrides: args[3], defaults: args[4], files: [ '~/.titanium/config.json', '~/.config/@geek/mobile/config.json', '~/.titanium/config.json', '~/.tn.config' ] });
 console.log(config.store);
 
 

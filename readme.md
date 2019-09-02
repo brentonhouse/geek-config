@@ -48,18 +48,117 @@ const config2 = new Config({
 |:-:	|:-:	|:-:	|:-:	|
 | 1.  	| **process.env**  	| `MYAPP_PROPERTY1="environment-value" ` 		| environment variable  	|
 | 2.  	| **overrides**  	| `{ "property1": "override-value" }`	| parameter: `overrides`  	|
-| 3.  	| **user profile config file**  	| `myapp.dev.user.json`    	| *project directory*  	|
-| 4.  	| **user config file**  	| `myapp.user.json`  	|   *project directory*  	|
-| 5.  	| **project profile config file**  	| `myapp.dev.project.json`  	| *project directory*  	|
-| 6.  	| **project config file**  	| `myapp.project.json`  	| *project directory*  	|
-| 7.  	| **global profile config fil**e  	| `myapp.dev.global.json`  		| *home config directory*  	|
-| 8.  	| **global config file**  	| `myapp.global.json`  		| *home config directory*  	|
-| 9.  	| **default values**  	|  `{ "property1": "default-value" }`	  	| parameter: `defaults`  	|
+| 4.  	| **files**  	| `['~/.titanium/config.json', '~/.tn.json']`	| parameter: `files`  	|
+| 5.  	| **user profile config file**  	| `myapp.dev.user.json`    	| *project directory*  	|
+| 6.  	| **user config file**  	| `myapp.user.json`  	|   *project directory*  	|
+| 7.  	| **project profile config file**  	| `myapp.dev.project.json`  	| *project directory*  	|
+| 8.  	| **project config file**  	| `myapp.project.json`  	| *project directory*  	|
+| 9.  	| **global profile config fil**e  	| `myapp.dev.global.json`  		| *home config directory*  	|
+| 10.  	| **global config file**  	| `myapp.global.json`  		| *home config directory*  	|
+| 11.  	| **system config file**  	| `myapp.system.json`  		| *home config directory*  	|
+| 12.  	| **default values**  	|  `{ "property1": "default-value" }`	  	| parameter: `defaults`  	|
 
 ## Examples
 
+> **NOTE:  Currently only the file extension `.json` is supported.  Support for more file extensions will be added very soon.**
 
-> if no parameters are passed in
+### Parameters: name
+
+
+```JavaScript
+cost Config = require('@geek/config');
+const config = new Config({ name: 'myapp' });
+```
+
+* `process.env variables` *(if exists)*
+
+> Loaded objects fromm all the manually entered filenames:
+
+* `files`  *(from parameter )*
+
+
+
+> One of the following:
+
+* `myapp.user.json5` *(if exists)*
+* `myapp.user.yaml` *(if exists)*
+* `myapp.user.yml` *(if exists)*
+* `myapp.user.json` *(if exists)*
+
+> One of the following:
+
+* `myapp.project.json5` *(if exists)*
+* `myapp.project.yaml` *(if exists)*
+* `myapp.project.yml` *(if exists)*
+* `myapp.project.json` *(if exists)*
+
+> One of the following:
+
+* `~/.myapp/global.json5` *(if exists)*
+* `~/.myapp/global.yaml` *(if exists)*
+* `~/.myapp/global.yml` *(if exists)*
+* `~/.myapp/global.json` *(if exists)*
+
+> One of the following:
+
+* `~/.myapp/system.json5` *(if exists)*
+* `~/.myapp/system.yaml` *(if exists)*
+* `~/.myapp/system.yml` *(if exists)*
+* `~/.myapp/system.json` *(if exists)*
+
+### Parameters: `name, overrides, defaults` 
+
+
+```JavaScript
+cost Config = require('@geek/config');
+const config = new Config({ name: 'myapp', overrides: { variable2: 'overrides' }, defaults: variable9: 'defaults' });
+```
+
+* `process.env variables` *(if exists)*
+* `overrides` (from parameter)
+
+> Loaded objects fromm all the manually entered filenames:
+
+* `files`  *(from parameter )*
+
+> One of the following:
+
+* `myapp.user.json5` *(if exists)*
+* `myapp.user.yaml` *(if exists)*
+* `myapp.user.yml` *(if exists)*
+* `myapp.user.json` *(if exists)*
+
+> One of the following:
+
+* `myapp.project.json5` *(if exists)*
+* `myapp.project.yaml` *(if exists)*
+* `myapp.project.yml` *(if exists)*
+* `myapp.project.json` *(if exists)*
+
+> One of the following:
+
+* `~/.myapp/global.json5` *(if exists)*
+* `~/.myapp/global.yaml` *(if exists)*
+* `~/.myapp/global.yml` *(if exists)*
+* `~/.myapp/global.json` *(if exists)*
+
+> One of the following:
+
+* `~/.myapp/system.json5` *(if exists)*
+* `~/.myapp/system.yaml` *(if exists)*
+* `~/.myapp/system.yml` *(if exists)*
+* `~/.myapp/system.json` *(if exists)*
+
+
+> default values
+
+* `defaults` (from parameter)
+
+
+
+
+### No parameters are passed in
+
 
 - process.env 
 - manual overrides
