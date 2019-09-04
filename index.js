@@ -21,6 +21,7 @@ class Config {
 			globalFilenameSuffix:  '.global',
 			systemFilenameSuffix:  '.system',
 			name:                  'geek',
+			onlyFiles:             false,
 			...options,
 		};
 
@@ -41,8 +42,14 @@ class Config {
 			this.fileExtensions = this.fileExtensions.split(',').map(item => item.trim());
 		}
 
-		if (_.isString(options.files)) {
-			options.files =  this.files.split(',').map(item => item.trim());
+		if (_.isString(options.only)) {
+			options.files =  options.only.split(',').map(item => item.trim());
+			options.onlyFiles = true;
+		} else if (_.isArray(options.only)) {
+			options.files =  options.only;
+			options.onlyFiles = true;
+		} else if (_.isString(options.files)) {
+			options.files =  options.files.split(',').map(item => item.trim());
 		}
 
 		const globalConfigDirectory = getConfigDirectory();
@@ -90,36 +97,38 @@ class Config {
 
 		// console.error(`configFiles: ${JSON.stringify(configFiles, null, 2)}`);
 
+		// console.error(`options.onlyFiles: ${JSON.stringify(options.onlyFiles, null, 2)}`);
+
 		// project user configs
-		_.forEach(options.profiles, profile => {
+		options.onlyFiles || _.forEach(options.profiles, profile => {
 				 addConfigFile(this.getConfigFile({ cwd: options.cwd, filename: `${options.name}.${profile}${options.userFilenameSuffix}` }));
 		});
 
 		// project profile configs
-		_.forEach(options.profiles, profile => {
+		options.onlyFiles || _.forEach(options.profiles, profile => {
 			addConfigFile(this.getConfigFile({ cwd: options.cwd, filename: `${options.name}.${profile}${options.projectFilenameSuffix}`  }));
 		});
 
 
 		// user config
-		addConfigFile(this.getConfigFile({ cwd: options.cwd, filename: `${options.name}${options.userFilenameSuffix}` }));
+		options.onlyFiles || addConfigFile(this.getConfigFile({ cwd: options.cwd, filename: `${options.name}${options.userFilenameSuffix}` }));
 
 
 		// project config
-		addConfigFile(this.getConfigFile({ cwd: options.cwd, filename: `${options.name}${options.projectFilenameSuffix}` }));
+		options.onlyFiles || addConfigFile(this.getConfigFile({ cwd: options.cwd, filename: `${options.name}${options.projectFilenameSuffix}` }));
 
 
 		// global profile configs
-		_.forEach(options.profiles, profile => {
+		options.onlyFiles || _.forEach(options.profiles, profile => {
 			addConfigFile(this.getConfigFile({ cwd: globalConfigDirectory, filename: `${options.name}.${profile}${options.globalFilenameSuffix}` }));
 		});
 
 		// global config
-		addConfigFile(this.getConfigFile({ cwd: globalConfigDirectory, filename: `${options.name}${options.globalFilenameSuffix}` }));
+		options.onlyFiles || addConfigFile(this.getConfigFile({ cwd: globalConfigDirectory, filename: `${options.name}${options.globalFilenameSuffix}` }));
 
 
 		// system config
-		addConfigFile(this.getConfigFile({ cwd: globalConfigDirectory, filename: `${options.name}${options.systemFilenameSuffix}` }));
+		options.onlyFiles || addConfigFile(this.getConfigFile({ cwd: globalConfigDirectory, filename: `${options.name}${options.systemFilenameSuffix}` }));
 
 
 		if (options.defaults) {
@@ -134,6 +143,7 @@ class Config {
 				throw new Error(`options.defaults is not an object: ${typeof options.defaults}`);
 			}
 
+			// console.error(`options.defaults: ${JSON.stringify(options.defaults, null, 2)}`);
 			configFiles.push(options.defaults);
 		}
 
@@ -244,14 +254,26 @@ class Config {
 		if (!key) {
 			return defaultValue || key;
 		}
-
+		// console.error(`key: ${JSON.stringify(key, null, 2)}`);
 		const env_var_name = `${this.name.toUpperCase()}_${key.toUpperCase().replace('.', '_')}`;
 		// console.error(`env_var_name: ${JSON.stringify(env_var_name, null, 2)}`);
 		const env_var = process.env[env_var_name];
 		// console.error(`env_var: ${JSON.stringify(env_var, null, 2)}`);
 		if (! _.isNil(env_var)) {
+			// console.error('you are here → found env_var');
 			return env_var;
 		}
+		// console.error(`this.store: ${JSON.stringify(this.store, null, 2)}`);
+		// const test =  _.get(this.store, key, defaultValue);
+
+
+		// console.error(`test: ${JSON.stringify(test, null, 2)}`);
+		// const test2 = this.store[key];
+		// console.error(`test2: ${JSON.stringify(test2, null, 2)}`);
+
+		// console.error(`typeof this.store: ${JSON.stringify(typeof this.store, null, 2)}`);
+		// console.error(`_.keysIn(this.store): ${JSON.stringify(_.keysIn(this.store), null, 2)}`);
+
 		return _.get(this.store, key, defaultValue);
 	}
 
