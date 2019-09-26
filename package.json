@@ -36,7 +36,7 @@
 		"lodash": "^4.17.15"
 	},
 	"devDependencies": {
-		"@geek/eslint-config": "0.0.8",
+		"@geek/eslint-config": "0.0.9",
 		"eslint": "^6.1.0"
 	},
 	"engines": {
