@@ -4,6 +4,8 @@ doc
 .eslintrc.yaml
 .eslintignore
 
+.dependabot
+.github
 
 # OS Directories and Files
 .DS_Store

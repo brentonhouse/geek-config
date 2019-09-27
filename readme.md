@@ -1,6 +1,8 @@
 # @geek/config
 
 [![@geek/config](https://img.shields.io/npm/v/@geek/config.png)](https://www.npmjs.com/package/@geek/config)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=brentonhouse/geek-config)](https://dependabot.com)
+
 
 > Geek Configuration Manager for Node.js - The complete solution for managing config settings for your Node.js application
 
