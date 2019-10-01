@@ -2,17 +2,46 @@
 	"name": "@geek/config",
 	"version": "0.2.3",
 	"description": "Geek Configuration Manager for Node.js - The complete solution for managing config settings for your Node.js application",
-	"main": "index.js",
-	"scripts": {
-		"test2": "node ./bin/cli.js ./tests/test1-json test1 'ios, dev' '{ \"property1\": \"overrides\", \"property2\": \"overrides\"}' '{ \"property8\": \"defaults\", \"property9\": \"defaults\"}'",
-		"list-files": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz",
-		"test": "npm install --ignore-scripts && npm run list-files",
-		"prepublishOnly": "git pull && bump"
+	"keywords": [
+		"brenton-house",
+		"config",
+		"json",
+		"jsonc"
+	],
+	"homepage": "https://github.com/brentonhouse/geek-config#readme",
+	"bugs": {
+		"url": "https://github.com/brentonhouse/geek-config/issues"
 	},
+	"repository": {
+		"type": "git",
+		"url": "github:brentonhouse/geek-config"
+	},
+	"license": "MIT",
 	"author": {
 		"name": "Brenton House",
 		"email": "brenton.house@gmail.com",
 		"url": "https://brenton.house"
+	},
+	"main": "index.js",
+	"bin": {
+		"config": "./bin/cli.js"
+	},
+	"scripts": {
+		"list-files": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz",
+		"prepublishOnly": "git pull && bump",
+		"test": "npm install --ignore-scripts && npm run list-files",
+		"test2": "node ./bin/cli.js ./tests/test1-json test1 'ios, dev' '{ \"property1\": \"overrides\", \"property2\": \"overrides\"}' '{ \"property8\": \"defaults\", \"property9\": \"defaults\"}'"
+	},
+	"dependencies": {
+		"fs-extra": "^8.1.0",
+		"lodash": "^4.17.15"
+	},
+	"devDependencies": {
+		"@geek/eslint-config": "0.0.9",
+		"eslint": "^6.5.1"
+	},
+	"engines": {
+		"node": ">=8.0"
 	},
 	"maintainers": [
 		{
@@ -20,33 +49,6 @@
 			"email": "brenton.house@gmail.com",
 			"url": "https://brenton.house"
 		}
-	],
-	"license": "MIT",
-	"bin": {
-		"config": "./bin/cli.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "github:brentonhouse/geek-config"
-	},
-	"bugs": {
-		"url": "https://github.com/brentonhouse/geek-config/issues"
-	},
-	"homepage": "https://github.com/brentonhouse/geek-config#readme",
-	"dependencies": {
-		"fs-extra": "^8.1.0",
-		"lodash": "^4.17.15"
-	},
-	"devDependencies": {
-		"@geek/eslint-config": "0.0.9",
-		"eslint": "^6.4.0"
-	},
-	"engines": {
-		"node": ">=8.0"
-	},
-	"keywords": [
-		"config",
-		"brenton-house"
 	],
 	"titanium": {
 		"ignore": true

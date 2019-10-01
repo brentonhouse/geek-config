@@ -63,6 +63,10 @@ const config2 = new Config({
 ## Examples
 
 > **NOTE:  Currently only the file extension `.json` is supported.  Support for more file extensions will be added very soon.**
+   
+   
+> This following part of the documentation has not been updated yet to reflect support for profiles but it will be updated soon.   
+> 
 
 ### Parameters: name
 

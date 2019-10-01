@@ -4,11 +4,12 @@ const fs = require('fs-extra');
 const path = require('path');
 const _ = require('lodash');
 const os = require('os');
+const jsonc = require('jsonc-parser');
 
 const cacheSubDirName = '.';
 // TODO: Implement json5, yaml, and yml
 // const supportedFileExtensions = [ '.json5', '.yaml', '.yml', '.json' ];
-const supportedFileExtensions = [ '.json' ];
+const supportedFileExtensions = [ '.json', '.jsonc' ];
 
 class Config {
 	constructor(options) {
@@ -186,7 +187,7 @@ class Config {
 		_.forEach(this.fileExtensions, ext => {
 
 			const filepath = path.join(options.cwd, `${options.filename}${ext}`);
-			// console.error(`filepath: ${JSON.stringify(filepath, null, 2)}`);
+			console.error(`filepath: ${JSON.stringify(filepath, null, 2)}`);
 			if (! fs.pathExistsSync(filepath)) {
 				// console.error('you are here → file not found');
 				return true;
@@ -197,7 +198,15 @@ class Config {
 				// TODO:  Add support for JSON5 and yaml
 				switch (ext) {
 					case '.json':
-						configFile = fs.readJsonSync(filepath, 'utf8');
+					case '.jsonc':
+						// configFile = fs.readJsonSync(filepath, 'utf8');
+						const content = fs.readFileSync(filepath, 'utf8');
+						const errors = [];
+						configFile = jsonc.parse(content, errors, { allowTrailingComma: false });
+						if (errors.length) {
+							console.errors(filepath);
+							throw Error(`an error occurred when parsing the file: ${filepath}`);
+						}
 						break;
 
 					default:
