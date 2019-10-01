@@ -1,6 +1,6 @@
 {
 	"name": "@geek/config",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"description": "Geek Configuration Manager for Node.js - The complete solution for managing config settings for your Node.js application",
 	"keywords": [
 		"brenton-house",
