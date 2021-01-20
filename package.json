@@ -33,7 +33,7 @@
 		"test2": "node ./bin/cli.js ./tests/test1-json test1 'ios, dev' '{ \"property1\": \"overrides\", \"property2\": \"overrides\"}' '{ \"property8\": \"defaults\", \"property9\": \"defaults\"}'"
 	},
 	"dependencies": {
-		"fs-extra": "^9.0.1",
+		"fs-extra": "^9.1.0",
 		"lodash": "^4.17.20"
 	},
 	"devDependencies": {
