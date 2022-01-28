@@ -1,15 +1,15 @@
 'use strict';
 
-const fs = require('fs-extra');
-const path = require('path');
-const _ = require('lodash');
-const os = require('os');
-const jsonc = require('jsonc-parser');
+const fs = require(`fs-extra`);
+const path = require(`path`);
+const _ = require(`lodash`);
+const os = require(`os`);
+const jsonc = require(`jsonc-parser`);
 
-const cacheSubDirName = '.';
+const cacheSubDirName = `.`;
 // TODO: Implement json5, yaml, and yml
 // const supportedFileExtensions = [ '.json5', '.yaml', '.yml', '.json' ];
-const supportedFileExtensions = [ '.json', '.jsonc' ];
+const supportedFileExtensions = [ `.json`, `.jsonc` ];
 
 class Config {
 	constructor(options) {
@@ -17,11 +17,11 @@ class Config {
 			deepMerge:             false,
 			profiles:              [],
 			files:                 [],
-			userFilenameSuffix:    '.user',
-			projectFilenameSuffix: '.project',
-			globalFilenameSuffix:  '.global',
-			systemFilenameSuffix:  '.system',
-			name:                  'geek',
+			userFilenameSuffix:    `.user`,
+			projectFilenameSuffix: `.project`,
+			globalFilenameSuffix:  `.global`,
+			systemFilenameSuffix:  `.system`,
+			name:                  `geek`,
 			onlyFiles:             false,
 			...options,
 		};
@@ -40,17 +40,17 @@ class Config {
 		this.fileExtensions = options.fileExtensions || options.fileExtension || supportedFileExtensions;
 
 		if (_.isString(this.fileExtensions)) {
-			this.fileExtensions = this.fileExtensions.split(',').map(item => item.trim());
+			this.fileExtensions = this.fileExtensions.split(`,`).map(item => item.trim());
 		}
 
 		if (_.isString(options.only)) {
-			options.files =  options.only.split(',').map(item => item.trim());
+			options.files =  options.only.split(`,`).map(item => item.trim());
 			options.onlyFiles = true;
 		} else if (_.isArray(options.only)) {
 			options.files =  options.only;
 			options.onlyFiles = true;
 		} else if (_.isString(options.files)) {
-			options.files =  options.files.split(',').map(item => item.trim());
+			options.files =  options.files.split(`,`).map(item => item.trim());
 		}
 
 		const globalConfigDirectory = getConfigDirectory();
@@ -58,9 +58,9 @@ class Config {
 
 
 		if (_.isString(options.profile)) {
-			options.profiles = options.profile.split(',').map(item => item.trim());
+			options.profiles = options.profile.split(`,`).map(item => item.trim());
 		} else if (_.isString(options.profiles)) {
-			options.profiles = options.profiles.split(',').map(item => item.trim());
+			options.profiles = options.profiles.split(`,`).map(item => item.trim());
 		}
 
 
@@ -91,7 +91,7 @@ class Config {
 		// specified file configs
 		_.forEach(options.files, file => {
 			const filePath = path.parse(file);
-			filePath.dir = filePath.dir.replace('~', os.homedir);
+			filePath.dir = filePath.dir.replace(`~`, os.homedir);
 			// console.error(`filePath: ${JSON.stringify(filePath, null, 2)}`);
 			addConfigFile(this.getConfigFile({ cwd: filePath.dir, filename: filePath.name, ext: filePath.exports }));
 		});
@@ -176,10 +176,10 @@ class Config {
 	getConfigFile(options = {}) {
 
 		if (!options.cwd) {
-			throw new Error('options.cwd is required.');
+			throw new Error(`options.cwd is required.`);
 		}
 		if (!options.filename) {
-			throw new Error('options.filename is required.');
+			throw new Error(`options.filename is required.`);
 		}
 
 		let configFile;
@@ -197,14 +197,14 @@ class Config {
 
 				// TODO:  Add support for JSON5 and yaml
 				switch (ext) {
-					case '.json':
-					case '.jsonc':
+					case `.json`:
+					case `.jsonc`:
 						// configFile = fs.readJsonSync(filepath, 'utf8');
-						const content = fs.readFileSync(filepath, 'utf8');
+						const content = fs.readFileSync(filepath, `utf8`);
 						const errors = [];
 						configFile = jsonc.parse(content, errors, { allowTrailingComma: false });
 						if (errors.length) {
-							console.errors(filepath);
+							console.error(errors);
 							throw Error(`an error occurred when parsing the file: ${filepath}`);
 						}
 						break;
@@ -213,7 +213,7 @@ class Config {
 						throw Error(`file extension not supported by @geek/config:  ${ext}`);
 				}
 			} catch (error) {
-				if (error.code === 'ENOENT') {
+				if (error.code === `ENOENT`) {
 					return true;
 				}
 				console.error(error);
@@ -264,7 +264,7 @@ class Config {
 			return defaultValue || key;
 		}
 		// console.error(`key: ${JSON.stringify(key, null, 2)}`);
-		const env_var_name = `${this.name.toUpperCase()}_${key.toUpperCase().replace('.', '_')}`;
+		const env_var_name = `${this.name.toUpperCase()}_${key.toUpperCase().replace(`.`, `_`)}`;
 		// console.error(`env_var_name: ${JSON.stringify(env_var_name, null, 2)}`);
 		const env_var = process.env[env_var_name];
 		// console.error(`env_var: ${JSON.stringify(env_var, null, 2)}`);
