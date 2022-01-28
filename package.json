@@ -1,6 +1,6 @@
 {
 	"name": "@geek/config",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Geek Configuration Manager for Node.js - The complete solution for managing config settings for your Node.js application",
 	"keywords": [
 		"brenton-house",
@@ -19,7 +19,6 @@
 	"license": "MIT",
 	"author": {
 		"name": "Brenton House",
-		"email": "brenton.house@gmail.com",
 		"url": "https://brenton.house"
 	},
 	"main": "index.js",
