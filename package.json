@@ -1,6 +1,6 @@
 {
 	"name": "@geek/config",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Geek Configuration Manager for Node.js - The complete solution for managing config settings for your Node.js application",
 	"keywords": [
 		"brenton-house",
@@ -33,12 +33,13 @@
 		"test2": "node ./bin/cli.js ./tests/test1-json test1 'ios, dev' '{ \"property1\": \"overrides\", \"property2\": \"overrides\"}' '{ \"property8\": \"defaults\", \"property9\": \"defaults\"}'"
 	},
 	"dependencies": {
-		"fs-extra": "^10.0.0",
+		"fs-extra": "^11.1.1",
+		"jsonc-parser": "^3.2.0",
 		"lodash": "^4.17.21"
 	},
 	"devDependencies": {
 		"@geek/eslint-config": "1.0.3",
-		"eslint": "^8.7.0"
+		"eslint": "^8.43.0"
 	},
 	"engines": {
 		"node": ">=12.16.3"
